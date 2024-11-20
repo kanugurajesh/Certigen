@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import CertificateTemplate from '@/components/CertificateTemplate';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { useState } from "react";
+import CertificateTemplate from "@/components/CertificateTemplate";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const Home: React.FC = () => {
-  const [name, setName] = useState('');
-  const [course, setCourse] = useState('');
-  const [date, setDate] = useState('');
+  const [name, setName] = useState("");
+  const [course, setCourse] = useState("");
+  const [date, setDate] = useState("");
   const [isPreview, setIsPreview] = useState(false);
 
   const handleGeneratePDF = async () => {
-    const certificateElement = document.getElementById('certificate');
+    const certificateElement = document.getElementById("certificate");
     if (!certificateElement) return;
 
     const canvas = await html2canvas(certificateElement);
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'px',
+      orientation: "landscape",
+      unit: "px",
       format: [canvas.width, canvas.height],
     });
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save('certificate.pdf');
+    pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+    pdf.save("certificate.pdf");
   };
 
   return (
@@ -71,18 +71,20 @@ const Home: React.FC = () => {
       ) : (
         <div className="text-center">
           <CertificateTemplate name={name} course={course} date={date} />
-          <button
-            onClick={handleGeneratePDF}
-            className="mt-6 bg-green-500 text-white p-2 rounded"
-          >
-            Download PDF
-          </button>
-          <button
-            onClick={() => setIsPreview(false)}
-            className="mt-4 bg-red-500 text-white p-2 rounded"
-          >
-            Edit Details
-          </button>
+          <div className="flex gap-4 items-center justify-center mt-4">
+            <button
+              onClick={handleGeneratePDF}
+              className="bg-green-500 text-white p-2 rounded"
+            >
+              Download PDF
+            </button>
+            <button
+              onClick={() => setIsPreview(false)}
+              className="bg-red-500 text-white p-2 rounded"
+            >
+              Edit Details
+            </button>
+          </div>
         </div>
       )}
     </div>
